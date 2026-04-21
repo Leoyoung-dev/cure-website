@@ -8,8 +8,12 @@
 <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
 <title>敦煌壁画守护者 — 灰模原型</title>
 <style>
-body { margin: 0; padding: 0; overflow: hidden; background: #000; display: flex; }
-#game-container { flex: 1; height: 100vh; position: relative; }
+body { margin: 0; padding: 0; overflow: hidden; background: #000; display: flex; flex-direction: column; }
+#top-nav { height: 44px; background: rgba(20, 20, 30, 0.95); border-bottom: 1px solid #333; display: flex; align-items: center; padding: 0 16px; z-index: 1000; flex-shrink: 0; }
+#top-nav a { color: #5bb381; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+#top-nav a:hover { color: #7dd8a0; }
+#top-nav .nav-title { margin-left: auto; color: #888; font-size: 13px; }
+#game-container { flex: 1; position: relative; min-height: 0; }
 #game-canvas { width: 100%; height: 100%; display: block; }
 #webcam-container { width: 320px; height: 240px; position: absolute; bottom: 20px; right: 20px; z-index: 10; border: 2px solid #5bb381; border-radius: 8px; overflow: hidden; background: #333; }
 #webcam { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
@@ -23,6 +27,10 @@ body { margin: 0; padding: 0; overflow: hidden; background: #000; display: flex;
 </style>
 </head>
 <body>
+<div id="top-nav">
+  <a href="/">← 返回 Cure 首页</a>
+  <span class="nav-title">敦煌壁画守护者 — 灰模原型</span>
+</div>
 <div id="game-container">
 	<canvas id="game-canvas"></canvas>
 	<div id="webcam-container">
