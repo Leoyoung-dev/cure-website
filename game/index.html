@@ -9,14 +9,14 @@
 <title>敦煌壁画守护者 — 灰模原型</title>
 <style>
 body { margin: 0; padding: 0; overflow: hidden; background: #000; display: flex; flex-direction: column; }
-#top-nav { height: 56px; background: #ffffff; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; padding: 0 20px; z-index: 1000; flex-shrink: 0; font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif; }
-#top-nav .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1f2937; font-weight: 700; font-size: 18px; }
-#top-nav .nav-brand:hover { color: #1a56db; }
-#top-nav .nav-logo { width: 32px; height: 32px; background: linear-gradient(135deg, #5bb381, #1a56db); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; font-weight: 700; }
-#top-nav .nav-links { margin-left: auto; display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; }
-#top-nav .nav-links a { color: #6b7280; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
-#top-nav .nav-links a:hover { color: #1a56db; }
-#top-nav .nav-links a.active { color: #1a56db; font-weight: 600; }
+#cure-navbar { height: 48px; background: #ffffff; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; padding: 0 20px; flex-shrink: 0; z-index: 1000; position: relative; }
+#cure-navbar .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1f2937; font-weight: 700; font-size: 18px; font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif; }
+#cure-navbar .nav-brand:hover { color: #1a56db; }
+#cure-navbar .nav-logo { width: 32px; height: 32px; background: linear-gradient(135deg, #5bb381, #1a56db); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; font-weight: 700; }
+#cure-navbar .nav-links { margin-left: auto; display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; }
+#cure-navbar .nav-links a { color: #6b7280; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif; }
+#cure-navbar .nav-links a:hover { color: #1a56db; }
+#cure-navbar .nav-links a.active { color: #1a56db; font-weight: 600; }
 #game-container { flex: 1; position: relative; min-height: 0; }
 #game-canvas { width: 100%; height: 100%; display: block; }
 #webcam-container { width: 320px; height: 240px; position: absolute; bottom: 20px; right: 20px; z-index: 10; border: 2px solid #5bb381; border-radius: 8px; overflow: hidden; background: #333; }
@@ -31,7 +31,7 @@ body { margin: 0; padding: 0; overflow: hidden; background: #000; display: flex;
 </style>
 </head>
 <body>
-<div id="top-nav">
+<div id="cure-navbar">
   <a href="/" class="nav-brand">
     <div class="nav-logo">C</div>
     <span>Cure（可愈）</span>
