@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Cross-Origin headers for SharedArrayBuffer support in Godot 4 Web exports -->
+<meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+<meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+<title>敦煌壁画守护者 — 灰模原型</title>
+<style>
+body { margin: 0; padding: 0; overflow: hidden; background: #000; display: flex; }
+#game-container { flex: 1; height: 100vh; position: relative; }
+#game-canvas { width: 100%; height: 100%; display: block; }
+#webcam-container { width: 320px; height: 240px; position: absolute; bottom: 20px; right: 20px; z-index: 10; border: 2px solid #5bb381; border-radius: 8px; overflow: hidden; background: #333; }
+#webcam { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+#output_canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: scaleX(-1); pointer-events: none; }
+#debug-overlay {
+	position: fixed; top: 10px; right: 10px;
+	background: rgba(0,0,0,0.7); color: #0f0; font: 14px monospace;
+	padding: 10px; border-radius: 4px; z-index: 100;
+	pointer-events: none; white-space: pre-line;
+}
+</style>
+</head>
+<body>
+<div id="game-container">
+	<canvas id="game-canvas"></canvas>
+	<div id="webcam-container">
+		<video id="webcam" autoplay playsinline></video>
+		<canvas id="output_canvas"></canvas>
+	</div>
+</div>
+<div id="debug-overlay">
+	<div id="debug-text">等待加载...</div>
+</div>
+
+<!-- Load Godot 4 Engine Script -->
+<script src="index.js"></script>
+
+<script type="module">
+// ===== Godot 4 Engine Initialization =====
+const engine = new Engine({"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":5077108,"index.wasm":37695054},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4});
+
+engine.startGame({
+	"onProgress": function (current, total) {
+		if (total > 0) {
+			document.getElementById("debug-text").textContent = `Godot加载中... ${Math.round(current / total * 100)}%`;
+		}
+	}
+}).then(() => {
+	document.getElementById("debug-text").textContent = "Godot加载完成！正在初始化MediaPipe...";
+	initializeFaceTracker().catch(err => {
+		document.getElementById("debug-text").textContent = "Tracker Error: " + err.message;
+		console.error("[FaceTracker] Init error:", err);
+	});
+});
+
+// ===== MediaPipe Face Landmarker Integration =====
+import { FilesetResolver, FaceLandmarker, DrawingUtils } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/vision_bundle.mjs";
+
+let faceLandmarker = null;
+let videoElement = document.getElementById("webcam");
+let canvasElement = document.getElementById("output_canvas");
+let canvasCtx = canvasElement.getContext("2d");
+let drawingUtils = null;
+let lastVideoTime = -1;
+
+const AMPLIFY = 5.0;
+
+// Global state bridge to Godot (SignalReceiver.gd expects this exact structure)
+window.godotFaceData = window.godotFaceData || {
+	puff_score: 0,
+	jaw_open_score: 0,
+	head_yaw: 0,
+	pucker_score: 0,
+	emg_swallow: false,
+	active: false
+};
+
+async function initializeFaceTracker() {
+	const filesetResolver = await FilesetResolver.forVisionTasks(
+		"https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm"
+	);
+	faceLandmarker = await FaceLandmarker.createFromOptions(filesetResolver, {
+		baseOptions: {
+			modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
+			delegate: "CPU"  // CRITICAL: GPU produces all-zero BlendShapes on web
+		},
+		outputFaceBlendshapes: true,
+		outputFacialTransformationMatrixes: true,  // REQUIRED for head_yaw
+		runningMode: "VIDEO",
+		numFaces: 1
+	});
+	document.getElementById("debug-text").textContent = "Face model loaded. Starting camera...";
+	await enableCam();
+}
+
+async function enableCam() {
+	const stream = await navigator.mediaDevices.getUserMedia({
+		video: { width: 320, height: 240, facingMode: "user" }
+	});
+	videoElement.srcObject = stream;
+	await videoElement.play();
+	document.getElementById("debug-text").textContent = "Camera active. Tracking...";
+	requestAnimationFrame(predictWebcam);
+}
+
+function predictWebcam() {
+	if (canvasElement.width !== videoElement.videoWidth && videoElement.videoWidth > 0) {
+		canvasElement.width = videoElement.videoWidth;
+		canvasElement.height = videoElement.videoHeight;
+	}
+
+	if (videoElement && videoElement.readyState >= 2 && videoElement.currentTime !== lastVideoTime) {
+		lastVideoTime = videoElement.currentTime;
+		const results = faceLandmarker.detectForVideo(videoElement, performance.now());
+
+		if (canvasElement.width > 0) {
+			canvasCtx.save();
+			canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+		}
+
+		window.godotFaceData.active = false;
+
+		if (results.faceLandmarks && results.faceLandmarks.length > 0) {
+			window.godotFaceData.active = true;
+			const landmarks = results.faceLandmarks[0];
+
+			if (canvasElement.width > 0) {
+				if (!drawingUtils) drawingUtils = new DrawingUtils(canvasCtx);
+				drawingUtils.drawConnectors(landmarks, FaceLandmarker.FACE_LANDMARKS_TESSELATION, { color: "#C0C0C070", lineWidth: 1 });
+				drawingUtils.drawConnectors(landmarks, FaceLandmarker.FACE_LANDMARKS_LIPS, { color: "#5bb381", lineWidth: 2 });
+			}
+
+			let rawPuffScore = 0;
+			let rawPuckerScore = 0;
+			let rawJawOpenScore = 0;
+			let topCategories = [];
+
+			// Extract BlendShapes
+			if (results.faceBlendshapes && results.faceBlendshapes.length > 0) {
+				const blendshapes = results.faceBlendshapes[0].categories;
+				
+				// Diagnostic: Log all category names once so we can see the exact strings
+				if (!window.hasLoggedCategories) {
+					console.log("[FaceTracker] All available categories:", blendshapes.map(c => c.categoryName).sort());
+					window.hasLoggedCategories = true;
+				}
+
+				// Sort to find top signals for debugging (Expand to top 10)
+				topCategories = [...blendshapes].sort((a, b) => b.score - a.score).slice(0, 10);
+
+				for (let i = 0; i < blendshapes.length; i++) {
+					const name = blendshapes[i].categoryName;
+					const score = blendshapes[i].score;
+					
+					// Robust check for cheekPuff + cheekPuffLeft/Right variants
+					if (name.toLowerCase().includes("cheekpuff")) {
+						rawPuffScore += score;
+					}
+					if (name === "mouthPucker") rawPuckerScore += score;
+					if (name === "jawOpen") rawJawOpenScore += score;
+					// Diagnostic: log cheekPuff once to confirm it exists
+					if (name === "cheekPuff" && !window._loggedCheekPuff) {
+						console.log("[FaceTracker] cheekPuff raw value:", score);
+						window._loggedCheekPuff = true;
+					}
+				}
+			}
+
+			// Extract Head Yaw from Transformation Matrix
+			let headYaw = 0;
+			if (results.facialTransformationMatrixes && results.facialTransformationMatrixes.length > 0) {
+				const m = results.facialTransformationMatrixes[0].data;
+				headYaw = -Math.atan2(m[8], m[10]);  // 取反：CSS镜像了视频显示，MediaPipe处理原始像素
+			}
+
+			// === Mutual-exclusive signal routing ===
+			// When cheekPuff is unavailable (raw ≈ 0), mouthPucker drives
+			// BOTH puff and pucker actions.  We use jawOpen to decide which
+			// channel receives the signal.  ONLY ONE channel gets a non-zero
+			// value per frame — this eliminates the "both channels fight"
+			// problem that caused hold-progress bars to reset.
+			//
+			// Discrimination (from user testing data):
+			//   鼓腮 (puff):  jawOpen raw ≥ 0.06  (Godot smoothed ≥ 0.3)
+			//   嘟嘴 (pucker): jawOpen raw ≤ 0.04  (Godot smoothed ≤ 0.2)
+			//   Threshold: 0.045 raw  (midpoint of gap)
+			const JAW_PUFF_THRESHOLD = 0.045;
+			const PUCKER_MIN_FOR_ROUTING = 0.12;
+			const STATE_HOLD_MIN = 5;  // 至少 5 帧才允许切换路由
+
+			let finalPuffScore = rawPuffScore;
+			let finalPuckerScore = rawPuckerScore;
+			let routeLabel = '';
+
+			if (rawPuffScore < 0.05) {
+				// cheekPuff unavailable — use jawOpen to route mouthPucker
+				let newState = 'idle';
+				if (rawPuckerScore > PUCKER_MIN_FOR_ROUTING) {
+					newState = rawJawOpenScore > JAW_PUFF_THRESHOLD ? 'puff' : 'pucker';
+				}
+
+				// Sticky state: require STATE_HOLD_MIN consecutive frames
+				// of a DIFFERENT state before switching
+				if (newState !== window._routingState) {
+					window._stateHoldFrames = (window._stateHoldFrames || 0) + 1;
+					if (window._stateHoldFrames >= STATE_HOLD_MIN) {
+						window._routingState = newState;
+						window._stateHoldFrames = 0;
+					}
+					// Before confirmed switch, keep previous routing
+				} else {
+					window._stateHoldFrames = 0;
+				}
+
+				// Initialize on first frame
+				if (!window._routingState) window._routingState = 'idle';
+
+				// Apply exclusive routing based on confirmed state
+				if (window._routingState === 'puff') {
+					finalPuffScore = rawPuckerScore * 0.8;
+					finalPuckerScore = 0;   // ★ 关键：pucker 通道清零
+					routeLabel = '[PUFF路由]';
+				} else if (window._routingState === 'pucker') {
+					finalPuffScore = 0;
+					finalPuckerScore = rawPuckerScore;
+					routeLabel = '[PUCKER路由]';
+				} else {
+					// idle: both channels get natural (low) values
+					finalPuffScore = 0;
+					finalPuckerScore = rawPuckerScore;
+				}
+			}
+
+			window.godotFaceData.puff_score = finalPuffScore * AMPLIFY;
+			window.godotFaceData.jaw_open_score = rawJawOpenScore * AMPLIFY;
+			window.godotFaceData.pucker_score = finalPuckerScore * AMPLIFY;
+			window.godotFaceData.head_yaw = headYaw;
+
+			const debugDiv = document.getElementById("debug-text");
+			const topStr = topCategories.map(c => `${c.categoryName}: ${c.score.toFixed(2)}`).join(" | ");
+			debugDiv.textContent =
+				`Godot <--> MediaPipe [Active] ${routeLabel}\n` +
+				`鼓颊 (Puff): ${window.godotFaceData.puff_score.toFixed(2)}\n` +
+				`张嘴 (Jaw): ${window.godotFaceData.jaw_open_score.toFixed(2)}\n` +
+				`嘟嘴 (Pucker): ${window.godotFaceData.pucker_score.toFixed(2)}\n` +
+				`偏头 (Yaw): ${(window.godotFaceData.head_yaw * 180 / Math.PI).toFixed(1)}°\n` +
+				`cheekPuff raw: ${rawPuffScore.toFixed(3)} | jawOpen: ${rawJawOpenScore.toFixed(3)} | route: ${window._routingState || 'init'}\n` +
+				`最强信号: ${topStr}\n` +
+				`(游戏内按 E 模拟吞咽加水)`;
+		} else {
+			document.getElementById("debug-text").textContent = "No face detected (未检测到人脸)";
+		}
+		if (canvasElement.width > 0) {
+			canvasCtx.restore();
+		}
+	}
+	requestAnimationFrame(predictWebcam);
+}
+
+// 绑定全局键盘按下事件，模拟 swallow (原 MVP 里用的)
+window.addEventListener('keydown', (e) => {
+	if (e.code === 'KeyE') {
+		window.godotFaceData.emg_swallow = true;
+	}
+});
+window.addEventListener('keyup', (e) => {
+	if (e.code === 'KeyE') {
+		window.godotFaceData.emg_swallow = false;
+	}
+});
+
+</script>
+</body>
+</html>

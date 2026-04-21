@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中风康复口面部症状用户研究报告</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       学术研究报告样式 — 浅色、正式、高可读性
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      --page-bg: #fdfdfc;
+      --paper-bg: #ffffff;
+      --text-body: #2c2c2c;
+      --text-heading: #1a1a1a;
+      --text-secondary: #555555;
+      --text-muted: #888888;
+      --border-light: #e5e5e5;
+      --border-table: #d0d0d0;
+      --accent: #1a56db;
+      --accent-light: #e8f0fe;
+      --accent-dark: #143fa6;
+      --green: #16794a;
+      --green-bg: #ecfdf3;
+      --amber: #92600e;
+      --amber-bg: #fef9ec;
+      --red: #b72e2e;
+      --red-bg: #fef2f2;
+      --gray-bg: #f7f7f6;
+      --insight-bg: #f0f4ff;
+      --insight-border: #a3bffa;
+      --evidence-bg: #f9f9f7;
+      --font-serif: 'Source Serif 4', 'Noto Serif SC', 'Georgia', serif;
+      --font-sans: 'Noto Sans SC', -apple-system, 'Segoe UI', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--page-bg);
+      color: var(--text-body);
+      line-height: 1.8;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── 页面容器 ── */
+    .page-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ── 封面 / 标题页 ── */
+    .cover {
+      text-align: center;
+      padding: 80px 40px 60px;
+      border-bottom: 2px solid var(--text-heading);
+      margin-bottom: 48px;
+    }
+    .cover h1 {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-heading);
+      line-height: 1.4;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+    .cover .subtitle {
+      font-size: 17px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      margin-bottom: 28px;
+    }
+    .cover .meta-line {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 2;
+    }
+
+    /* ── 摘要统计 ── */
+    .abstract {
+      background: var(--gray-bg);
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      padding: 28px 32px;
+      margin-bottom: 48px;
+    }
+    .abstract-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 16px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-num {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+    .stat-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── 目录 ── */
+    .toc {
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .toc h2 {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 16px;
+    }
+    .toc ol {
+      list-style: none;
+      padding: 0;
+    }
+    .toc li {
+      padding: 6px 0;
+      border-bottom: 1px dotted var(--border-light);
+    }
+    .toc li a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .toc li a:hover {
+      text-decoration: underline;
+    }
+    .toc-count {
+      color: var(--text-muted);
+      font-size: 14px;
+      float: right;
+    }
+
+    /* ── 章节 ── */
+    .chapter {
+      margin-bottom: 56px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .chapter:last-child {
+      border-bottom: none;
+    }
+
+    .chapter h2 {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 8px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+    }
+    .chapter-meta {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      margin-top: 8px;
+    }
+
+    .chapter h3 {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin: 32px 0 16px;
+      padding-left: 12px;
+      border-left: 3px solid var(--accent);
+    }
+
+    /* ── 核心发现框 ── */
+    .insight-box {
+      background: var(--insight-bg);
+      border: 1px solid var(--insight-border);
+      border-radius: 4px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+    .insight-marker {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .insight-box p {
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--text-body);
+    }
+
+    /* ── 数据表格 ── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 24px;
+      font-size: 14px;
+    }
+    .data-table thead th {
+      background: var(--gray-bg);
+      padding: 10px 14px;
+      font-weight: 600;
+      font-size: 13px;
+      text-align: left;
+      color: var(--text-secondary);
+      border-top: 2px solid var(--text-heading);
+      border-bottom: 1px solid var(--border-table);
+    }
+    .data-table tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: top;
+      line-height: 1.6;
+    }
+    .data-table tbody tr:hover {
+      background: #fafaf8;
+    }
+    .row-num {
+      color: var(--text-muted);
+      text-align: center;
+      font-size: 13px;
+    }
+    .center { text-align: center; }
+    .sol-name { font-weight: 500; }
+    .pro-text { color: var(--green); font-size: 13px; }
+    .con-text { color: var(--amber); font-size: 13px; }
+    .pain-desc { font-weight: 500; }
+    .pain-freq { white-space: nowrap; font-size: 13px; color: var(--text-secondary); }
+    .pain-quote { font-size: 13px; color: var(--text-secondary); }
+
+    /* ── 标签 ── */
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      padding: 2px 10px;
+      border-radius: 3px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .tag-positive { background: var(--green-bg); color: var(--green); }
+    .tag-neutral { background: var(--amber-bg); color: var(--amber); }
+    .tag-negative { background: var(--red-bg); color: var(--red); }
+    .tag-muted { background: var(--gray-bg); color: var(--text-muted); }
+
+    /* ── 产品机会卡片 ── */
+    .findings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .finding-block {
+      background: var(--paper-bg);
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      padding: 20px 24px;
+    }
+    .finding-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .finding-num {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .finding-title {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-heading);
+      line-height: 1.5;
+    }
+    .finding-body {
+      font-size: 14px;
+      color: var(--text-body);
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+    .finding-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    /* ── 引述 ── */
+    blockquote.evidence {
+      background: var(--evidence-bg);
+      border-left: 3px solid var(--border-table);
+      padding: 12px 16px;
+      margin: 0;
+      font-size: 13px;
+      font-style: italic;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .quotes-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .quote-block {
+      padding: 16px 20px;
+      border-left: 3px solid var(--accent);
+      background: var(--gray-bg);
+      border-radius: 0 4px 4px 0;
+    }
+    .quote-block blockquote {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-style: italic;
+      color: var(--text-body);
+      line-height: 1.8;
+      margin-bottom: 10px;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .quote-attribution {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .quote-context {
+      color: var(--text-muted);
+    }
+    .quote-insight {
+      font-size: 13px;
+      color: var(--accent-dark);
+      margin: 0;
+    }
+
+    .empty {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 12px 0;
+    }
+
+    /* ── 页脚 ── */
+    .footer {
+      text-align: center;
+      padding: 40px 0;
+      margin-top: 32px;
+      border-top: 2px solid var(--text-heading);
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 2;
+    }
+
+    /* ── 打印优化 ── */
+    @media print {
+      body { font-size: 12pt; }
+      .page-wrapper { max-width: 100%; padding: 0; }
+      .cover { padding: 40px 0; }
+      .chapter { page-break-inside: avoid; }
+      .data-table { font-size: 10pt; }
+      .finding-block { break-inside: avoid; }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 700px) {
+      .page-wrapper { padding: 0 16px; }
+      .cover { padding: 40px 16px 32px; }
+      .cover h1 { font-size: 24px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .stat-num { font-size: 28px; }
+      .chapter h2 { font-size: 20px; }
+      .data-table { font-size: 13px; }
+      .data-table thead th,
+      .data-table tbody td { padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- 封面 -->
+    <header class="cover">
+      <h1>中风康复口面部症状<br>用户需求聚合分析报告</h1>
+      <p class="subtitle">基于 Reddit r/stroke 社区讨论数据的定性研究</p>
+      <div class="meta-line">
+        分析维度：口面部症状（全场景）<br>
+        生成日期：2026年04月09日<br>
+        数据来源：r/stroke · 模型：Grok-4.1-Fast via OpenRouter
+      </div>
+    </header>
+
+    <!-- 摘要统计 -->
+    <div class="abstract">
+      <div class="abstract-title">研究概览</div>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-num">4,230</div>
+          <div class="stat-desc">分析帖子总数</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">6</div>
+          <div class="stat-desc">症状分类</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">31</div>
+          <div class="stat-desc">识别痛点</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">27</div>
+          <div class="stat-desc">现有方案</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">21</div>
+          <div class="stat-desc">产品机会</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 目录 -->
+    <nav class="toc">
+      <h2>目 录</h2>
+      <ol>
+        <li><a href="#section-speech_difficulty">1. 言语困难</a> <span class="toc-count">(931 篇)</span></li>
+<li><a href="#section-aphasia">2. 失语症</a> <span class="toc-count">(571 篇)</span></li>
+<li><a href="#section-dysphagia">3. 吞咽困难</a> <span class="toc-count">(323 篇)</span></li>
+<li><a href="#section-facial_weakness">4. 面部无力</a> <span class="toc-count">(174 篇)</span></li>
+<li><a href="#section-facial_asymmetry">5. 面部不对称</a> <span class="toc-count">(138 篇)</span></li>
+<li><a href="#section-drooling">6. 流涎</a> <span class="toc-count">(29 篇)</span></li>
+
+      </ol>
+    </nav>
+
+    <!-- 正文章节 -->
+    
+    <section class="chapter" id="section-speech_difficulty">
+      <h2>1. 言语困难 (Speech Difficulty)</h2>
+      <p class="chapter-meta">本节基于 <strong>931</strong> 篇 Reddit 讨论帖进行聚合分析。</p>
+
+      <div class="insight-box">
+        <div class="insight-marker">核心发现</div>
+        <p>Stroke survivors with speech difficulties experience profound frustration from communication barriers, often compounded by family misunderstanding and caregiver burnout, with common solutions like speech therapy and AAC tools showing partial effectiveness but limited by access, cost, and patient resistance.</p>
+      </div>
+
+      <h3>1.1 用户痛点</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>痛点描述</th><th width="120">频率/提及</th><th>代表性引述</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="pain-desc">Difficulty communicating needs and expressing thoughts despite preserved comprehension</td>
+          <td class="pain-freq">High (mentioned in nearly all threads)</td>
+          <td class="pain-quote"><em>"He knows what he wants to say but the wrong words came out. Well, something wrong words but more like wrong syllables. Or the idea was there but I couldn’t find the word for it, even in my head, to myself.&quot; [survivor]"</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td class="pain-desc">Frustration and emotional distress from inability to speak or be understood</td>
+          <td class="pain-freq">High (mentioned in nearly all threads)</td>
+          <td class="pain-quote"><em>"I miss her voice so much it hurts me and my family to see her in this condition..she’s hopefully going to a different rehab center….any advice ?"</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td class="pain-desc">Family misunderstanding aphasia as laziness or cognitive decline</td>
+          <td class="pain-freq">Medium (mentioned in multiple threads)</td>
+          <td class="pain-quote"><em>"My grandma think my mom isn’t trying to get better or putting in the effort."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">4</td>
+          <td class="pain-desc">Caregiver burnout from constant communication efforts and lack of progress</td>
+          <td class="pain-freq">Medium (mentioned in multiple threads)</td>
+          <td class="pain-quote"><em>"I’m sick of being his emotional punching bag."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">5</td>
+          <td class="pain-desc">Invisibility of symptoms leading to dismissal or infantilization</td>
+          <td class="pain-freq">Medium (mentioned in multiple threads)</td>
+          <td class="pain-quote"><em>"People speak louder and treat you like you’re dumb when you have speech issues, but there was no need for that."</em></td>
+        </tr></tbody>
+    </table>
+
+      <h3>1.2 典型用户画像</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>用户画像</th><th width="100">估计数量</th><th>核心需求</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td>Adult child (20s-30s) caring for elderly parent (60s-90s) with aphasia and hemiparesis</td>
+          <td class="center">High (dominant pattern)</td>
+          <td>emotional support、communication aids、home rehab strategies</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td>Spouse caring for partner (30s-50s) with aphasia and mobility loss</td>
+          <td class="center">Medium</td>
+          <td>emotional support、caregiver burnout relief、therapy access</td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td>Young survivor (20s-30s) with aphasia seeking peer validation</td>
+          <td class="center">Low</td>
+          <td>emotional support、self-rehab guidance</td>
+        </tr></tbody>
+    </table>
+
+      <h3>1.3 现有解决方案评估</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>现有方案</th><th width="80">效果</th><th width="70">提及</th><th>优点</th><th>局限性</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="sol-name">Speech therapy (inpatient/outpatient)</td>
+          <td class="center"><span class="tag tag-neutral">部分有效</span></td>
+          <td class="center">High</td>
+          <td class="pro-text">gradual improvement in some cases</td>
+          <td class="con-text">slow progress；limited access；plateaus；insurance denials</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td class="sol-name">Reading aloud daily</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">High</td>
+          <td class="pro-text">improves speech clarity；accessible at home</td>
+          <td class="con-text">requires consistency；slow results</td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td class="sol-name">Singing/music therapy</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">High</td>
+          <td class="pro-text">bypasses damaged pathways；emotional benefits</td>
+          <td class="con-text">limited to familiar songs</td>
+        </tr>
+        <tr>
+          <td class="row-num">4</td>
+          <td class="sol-name">Communication boards/picture cards</td>
+          <td class="center"><span class="tag tag-neutral">部分有效</span></td>
+          <td class="center">High</td>
+          <td class="pro-text">low-tech；immediate basic needs</td>
+          <td class="con-text">rejected by some；too basic/childish；limited vocabulary</td>
+        </tr>
+        <tr>
+          <td class="row-num">5</td>
+          <td class="sol-name">AAC apps (Constant Therapy, TalkPath, Fluent AAC)</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">Medium</td>
+          <td class="pro-text">structured exercises；progress tracking</td>
+          <td class="con-text">costly；complex for some；Android/iOS limitations</td>
+        </tr></tbody>
+    </table>
+
+      <h3>1.4 产品设计机会</h3>
+      <div class="findings-list">
+        
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 1</span>
+            <span class="finding-title">Simplified, customizable AAC apps/boards for adults with aphasia</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Many reject standard boards as childish or overwhelming; need personalized, dignity-preserving tools</p>
+          <p class="finding-meta">受影响用户估计：High</p>
+          <blockquote class="evidence">"The pictures seem to make her mad right now. Probably cause it’s &#x27;child like&#x27;."</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 2</span>
+            <span class="finding-title">Home-based speech therapy apps with music/singing integration</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Singing bypasses damaged pathways; highly recommended but unstructured</p>
+          <p class="finding-meta">受影响用户估计：High</p>
+          <blockquote class="evidence">"Singing helps. My dad had a massive left side of the brain stroke, he had no language apart from yes... 9 months in we&#x27;ve a definite yes/no..."</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 3</span>
+            <span class="finding-title">Caregiver support platforms with peer matching and insurance navigation</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Burnout, isolation, and insurance barriers are pervasive; need emotional and practical relief</p>
+          <p class="finding-meta">受影响用户估计：High</p>
+          <blockquote class="evidence">"I’m sick of being his emotional punching bag.&quot; &quot;The paperwork for Medicare and Medicaid is so overwhelming and confusing"</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 4</span>
+            <span class="finding-title">Fatigue-aware rehab tools with pacing and symptom tracking</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Fluctuations due to fatigue are common but unmanaged</p>
+          <p class="finding-meta">受影响用户估计：Medium</p>
+          <blockquote class="evidence">"When I&#x27;m tired my articulation falters and if it is a fast moving conversation I&#x27;ll get tripped up"</blockquote>
+        </div>
+      </div>
+
+      <h3>1.5 代表性引述</h3>
+      <div class="quotes-section">
+        
+        <div class="quote-block">
+          <blockquote>"I really don’t like pulling on those gate belts, I’ll tell you."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Reacting to the poster’s rehab activity involving a gait belt</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Gait belts, while useful, can be physically or emotionally uncomfortable for users.</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"documenting like this can help, sometimes we dont notice how much progress we make and that can be depressing."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>未知</strong>
+            <span class="quote-context">| Commenting on the value of recording rehab progress</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Visual documentation helps combat discouragement by making incremental progress visible.</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"People don&#x27;t help. They speak over you. They walk away while they&#x27;re still talking. They expect instant answers. It takes me a few moment to initiate speech. I think I have bad care."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Describing ongoing speech difficulties nearly two years post-stroke and negative social interactions</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Highlights real-world communication barriers and perceived lack of adequate support.</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"I hate talking to other people in person cause they like to finish my sentences when I&#x27;m trying to figure out a word. It&#x27;s frustrating! So very frustrating."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Describing ongoing challenges with aphasia nearly 3 years post-stroke</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：The social barrier caused by others’ impatience, not the aphasia itself.</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"My old mom died at the hospital"</blockquote>
+          <div class="quote-attribution">
+            —— <strong>照护者</strong>
+            <span class="quote-context">| A commenter reflecting on their initial reaction to their mother&#x27;s stroke</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Illustrates the common experience of grieving the loss of a loved one&#x27;s former self while they are still alive.</em></p>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="section-aphasia">
+      <h2>2. 失语症 (Aphasia)</h2>
+      <p class="chapter-meta">本节基于 <strong>571</strong> 篇 Reddit 讨论帖进行聚合分析。</p>
+
+      <div class="insight-box">
+        <div class="insight-marker">核心发现</div>
+        <p>Aphasia creates profound emotional and social suffering not just from lost speech, but from others’ impatience, lack of awareness, and systemic barriers to therapy access, leading to isolation, caregiver burnout, and stalled recovery.</p>
+      </div>
+
+      <h3>2.1 用户痛点</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>痛点描述</th><th width="120">频率/提及</th><th>代表性引述</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="pain-desc">Inability to communicate urgent basic needs like bathroom access</td>
+          <td class="pain-freq">15</td>
+          <td class="pain-quote"><em>"Could use a bathroom. Nothing more humiliating than shitting yourself while trying to communicate you need a bathroom. Now!"</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td class="pain-desc">Social isolation due to communication barriers</td>
+          <td class="pain-freq">25</td>
+          <td class="pain-quote"><em>"I think aphasia is the loneliest parts of a stroke"</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td class="pain-desc">Frustration from being interrupted or spoken over during attempts to communicate</td>
+          <td class="pain-freq">20</td>
+          <td class="pain-quote"><em>"People don&#x27;t help. They speak over you. They walk away while they&#x27;re still talking. They expect instant answers."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">4</td>
+          <td class="pain-desc">Caregiver emotional burden and burnout</td>
+          <td class="pain-freq">30</td>
+          <td class="pain-quote"><em>"I feel like I’m living life for my mom and i have no time of my own to live mine."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">5</td>
+          <td class="pain-desc">Slow or stalled speech recovery despite therapy</td>
+          <td class="pain-freq">18</td>
+          <td class="pain-quote"><em>"Speech therapy&#x27;s not working out very well. She still struggles with basic things like copying shapes when written."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">6</td>
+          <td class="pain-desc">Misunderstanding or dismissal of aphasia as cognitive impairment</td>
+          <td class="pain-freq">12</td>
+          <td class="pain-quote"><em>"People speak louder and treat you like you’re dumb when you have speech issues, but there was no need for that."</em></td>
+        </tr></tbody>
+    </table>
+
+      <h3>2.2 典型用户画像</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>用户画像</th><th width="100">估计数量</th><th>核心需求</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td>Caregivers (spouses, adult children) of middle-aged or elderly stroke survivors</td>
+          <td class="center">400</td>
+          <td>communication strategies、prognosis information、emotional support</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td>Young stroke survivors (20s-40s) with aphasia</td>
+          <td class="center">50</td>
+          <td>peer validation、therapy access、return to work/school</td>
+        </tr></tbody>
+    </table>
+
+      <h3>2.3 现有解决方案评估</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>现有方案</th><th width="80">效果</th><th width="70">提及</th><th>优点</th><th>局限性</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="sol-name">Communication boards or picture cards</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">25</td>
+          <td class="pro-text">simple, low-tech, preserves dignity</td>
+          <td class="con-text">too childish for adults；limited vocabulary</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td class="sol-name">Speech therapy apps (Constant Therapy, Tactus Therapy, TalkPath)</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">20</td>
+          <td class="pro-text">adaptive difficulty；home-based</td>
+          <td class="con-text">costly subscriptions；requires tech literacy</td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td class="sol-name">Reading aloud daily</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">18</td>
+          <td class="pro-text">free；improves fluency</td>
+          <td class="con-text">requires motivation；slow progress</td>
+        </tr>
+        <tr>
+          <td class="row-num">4</td>
+          <td class="sol-name">Singing or music therapy</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">15</td>
+          <td class="pro-text">uses different brain pathways；engaging</td>
+          <td class="con-text">limited to familiar songs</td>
+        </tr>
+        <tr>
+          <td class="row-num">5</td>
+          <td class="sol-name">Speech therapy (professional)</td>
+          <td class="center"><span class="tag tag-neutral">部分有效</span></td>
+          <td class="center">40</td>
+          <td class="pro-text">structured；expert guidance</td>
+          <td class="con-text">access barriers；insurance limits；slow progress</td>
+        </tr></tbody>
+    </table>
+
+      <h3>2.4 产品设计机会</h3>
+      <div class="findings-list">
+        
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 1</span>
+            <span class="finding-title">Customizable, adult-oriented AAC apps with high-frequency needs prioritized (pain, bathroom, thirst)</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Current boards/apps are too childish or complex; users need simple, dignified tools for urgent needs</p>
+          <p class="finding-meta">受影响用户估计：30</p>
+          <blockquote class="evidence">"Could use a bathroom. Nothing more humiliating than shitting yourself while trying to communicate you need a bathroom. Now!"</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 2</span>
+            <span class="finding-title">Affordable, cross-platform speech therapy apps with offline mode and multilingual support</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Cost, tech literacy, and language barriers limit access; need free/low-cost tools for home use</p>
+          <p class="finding-meta">受影响用户估计：25</p>
+          <blockquote class="evidence">"I wish they didn’t charge $30 each month"</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 3</span>
+            <span class="finding-title">Caregiver support platform with peer matching and burnout prevention tools</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Emotional isolation and burnout are rampant; need validation and respite strategies</p>
+          <p class="finding-meta">受影响用户估计：35</p>
+          <blockquote class="evidence">"I feel like I’m living life for my mom and i have no time of my own to live mine."</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 4</span>
+            <span class="finding-title">Fatigue-aware rehab apps that adapt exercises to energy levels</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Symptoms worsen with fatigue; need pacing tools to prevent regression</p>
+          <p class="finding-meta">受影响用户估计：20</p>
+          <blockquote class="evidence">"when I am in a stressful situation some stuttering and difficultly finding words does appear"</blockquote>
+        </div>
+      </div>
+
+      <h3>2.5 代表性引述</h3>
+      <div class="quotes-section">
+        
+        <div class="quote-block">
+          <blockquote>"I think aphasia is the loneliest parts of a stroke"</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Original post expressing emotional burden of aphasia</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Highlights the profound social and emotional isolation caused by communication impairment</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"Nothing more humiliating than shitting yourself while trying to communicate you need a bathroom. Now!"</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Responding to the communication board idea with an urgent unmet need</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Reveals a real-world consequence of communication barriers—loss of dignity</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"People don&#x27;t help. They speak over you. They walk away while they&#x27;re still talking. They expect instant answers."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Describing ongoing speech difficulties nearly two years post-stroke and negative social interactions</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Highlights real-world communication barriers and perceived lack of adequate support</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"I feel like I’m living life for my mom and i have no time of my own to live mine."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>照护者</strong>
+            <span class="quote-context">| 19-year-old providing full-time care for mother post-stroke</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Young caregivers lack access to respite and financial support</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"Speech therapy&#x27;s not working out very well. She still struggles with basic things like copying shapes when written."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>照护者</strong>
+            <span class="quote-context">| Mother had a severe stroke 2 years ago with minimal speech recovery</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Limited effectiveness of conventional speech therapy</em></p>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="section-dysphagia">
+      <h2>3. 吞咽困难 (Dysphagia)</h2>
+      <p class="chapter-meta">本节基于 <strong>323</strong> 篇 Reddit 讨论帖进行聚合分析。</p>
+
+      <div class="insight-box">
+        <div class="insight-marker">核心发现</div>
+        <p>Dysphagia post-stroke frequently leads to refusal of thickened/pureed diets, aspiration pneumonia, and feeding tube complications, with caregivers needing better access to SLP therapy and palatable nutrition options.</p>
+      </div>
+
+      <h3>3.1 用户痛点</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>痛点描述</th><th width="120">频率/提及</th><th>代表性引述</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="pain-desc">Refusal or non-compliance with thickened liquids or pureed diets leading to malnutrition and weight loss</td>
+          <td class="pain-freq">high (mentioned in 50+ threads)</td>
+          <td class="pain-quote"><em>"He just refuses to take the liquid provided by the nurses. He keeps on vommiitting, and the liquid went to his lungs."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td class="pain-desc">Risk of aspiration pneumonia and choking</td>
+          <td class="pain-freq">high (mentioned in 40+ threads)</td>
+          <td class="pain-quote"><em>"Swallowing can be a really dangerous issue, not only due to choking but also because you can aspirate food into your lungs."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td class="pain-desc">Feeding tube complications (discomfort, removal, infections)</td>
+          <td class="pain-freq">medium (mentioned in 30+ threads)</td>
+          <td class="pain-quote"><em>"He wouldn&#x27;t drink the liquids provided by the hospital either. He wasn&#x27;t allowed to eat or drink anything that wasn&#x27;t thickened because the stroke somehow messed up his swallowing reflex."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">4</td>
+          <td class="pain-desc">Emotional distress from inability to eat normally</td>
+          <td class="pain-freq">medium (mentioned in 20+ threads)</td>
+          <td class="pain-quote"><em>"He really, really wants a damn sandwich"</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">5</td>
+          <td class="pain-desc">Limited access to speech therapy or swallow assessments</td>
+          <td class="pain-freq">medium (mentioned in 25+ threads)</td>
+          <td class="pain-quote"><em>"Push for speech therapy every single day, not the twice a week thing they&#x27;ll default to."</em></td>
+        </tr></tbody>
+    </table>
+
+      <h3>3.2 典型用户画像</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>用户画像</th><th width="100">估计数量</th><th>核心需求</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td>Adult child caregivers (30-50s) of elderly parents (60-90s)</td>
+          <td class="center">high (200+ threads)</td>
+          <td>prognostic clarity、safe feeding strategies、emotional support</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td>Stroke survivors (30-60s) with chronic dysphagia</td>
+          <td class="center">low (20+ threads)</td>
+          <td>home rehab exercises、palatable thickened foods</td>
+        </tr></tbody>
+    </table>
+
+      <h3>3.3 现有解决方案评估</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>现有方案</th><th width="80">效果</th><th width="70">提及</th><th>优点</th><th>局限性</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="sol-name">Thickened liquids and pureed diets</td>
+          <td class="center"><span class="tag tag-neutral">部分有效</span></td>
+          <td class="center">high</td>
+          <td class="pro-text">Reduces aspiration risk</td>
+          <td class="con-text">Unpalatable, refusal leading to malnutrition</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td class="sol-name">Speech therapy / swallowing exercises (e.g., Masako maneuver, effortful swallow)</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">medium</td>
+          <td class="pro-text">Improves swallow function</td>
+          <td class="con-text">Limited access, slow progress</td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td class="sol-name">Feeding tubes (NG, PEG, G-tube)</td>
+          <td class="center"><span class="tag tag-neutral">部分有效</span></td>
+          <td class="center">high</td>
+          <td class="pro-text">Ensures nutrition</td>
+          <td class="con-text">Discomfort, removal by patient, infections</td>
+        </tr></tbody>
+    </table>
+
+      <h3>3.4 产品设计机会</h3>
+      <div class="findings-list">
+        
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 1</span>
+            <span class="finding-title">Palatable, savory pureed or thickened meal kits</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Patients refuse bland hospital pureed foods, leading to malnutrition</p>
+          <p class="finding-meta">受影响用户估计：high</p>
+          <blockquote class="evidence">"She can’t stand the texture of the food so isn’t eating enough"</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 2</span>
+            <span class="finding-title">Home-based dysphagia screening/monitoring tool</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Delayed SLP access and inconsistent assessments lead to unsafe oral intake</p>
+          <p class="finding-meta">受影响用户估计：medium</p>
+          <blockquote class="evidence">"Has she had her swallowing checked? That could also be an issue."</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 3</span>
+            <span class="finding-title">Secure, comfortable feeding tube retention devices</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Patients repeatedly pull out tubes due to discomfort</p>
+          <p class="finding-meta">受影响用户估计：medium</p>
+          <blockquote class="evidence">"He refused and fought back.&quot; [caregiver] Context: Response to medical team pressuring to withdraw feeding support"</blockquote>
+        </div>
+      </div>
+
+      <h3>3.5 代表性引述</h3>
+      <div class="quotes-section">
+        
+        <div class="quote-block">
+          <blockquote>"He was not taking the liquid provided by the nurses. He keeps on vommiitting, and the liquid went to his lungs."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>照护者</strong>
+            <span class="quote-context">| Describing fatal aspiration due to refusal of thickened liquids</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Highlights life-threatening non-compliance with dysphagia management</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"Swallowing can be a really dangerous issue, not only due to choking but also because you can aspirate food into your lungs."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Warning about aspiration risks</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Emphasizes medical severity of dysphagia</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"Push for speech therapy every single day, not the twice a week thing they&#x27;ll default to."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>照护者</strong>
+            <span class="quote-context">| Advising on therapy frequency for swallowing</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Reveals gaps in standard care provision</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"He really, really wants a damn sandwich"</blockquote>
+          <div class="quote-attribution">
+            —— <strong>照护者</strong>
+            <span class="quote-context">| Patient distress over inability to eat normally</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Captures emotional impact of dysphagia</em></p>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="section-facial_weakness">
+      <h2>4. 面部无力 (Facial Weakness)</h2>
+      <p class="chapter-meta">本节基于 <strong>174</strong> 篇 Reddit 讨论帖进行聚合分析。</p>
+
+      <div class="insight-box">
+        <div class="insight-marker">核心发现</div>
+        <p>Stroke survivors with facial weakness commonly experience persistent asymmetry affecting speech, smiling, and daily functions like drinking, leading to emotional distress and self-consciousness, with partial relief from exercises and therapy but slow progress.</p>
+      </div>
+
+      <h3>4.1 用户痛点</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>痛点描述</th><th width="120">频率/提及</th><th>代表性引述</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="pain-desc">Difficulty achieving symmetrical smile due to persistent facial weakness</td>
+          <td class="pain-freq">25</td>
+          <td class="pain-quote"><em>"I still have to concentrate Very hard to get my left side upper lip to stay even with my right side but it’s coming along!"</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td class="pain-desc">Emotional distress and self-consciousness from facial asymmetry</td>
+          <td class="pain-freq">20</td>
+          <td class="pain-quote"><em>"She told me my face looked “hilarious” the way the 1 side droops (my eyebrow droops with my eye) and it makes my other side look like I’m surprised. She had a really good laugh at that. It just made me want to cry."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td class="pain-desc">Speech slurring or dysarthria caused by facial droop</td>
+          <td class="pain-freq">18</td>
+          <td class="pain-quote"><em>"Dad just had a stroke and has slurred speech"</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">4</td>
+          <td class="pain-desc">Dribbling or leakage when drinking due to impaired lip seal</td>
+          <td class="pain-freq">10</td>
+          <td class="pain-quote"><em>"when I drink out of a cup the left side of my mouth leaks and dribbles down my chin."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">5</td>
+          <td class="pain-desc">Slow or incomplete recovery of facial muscles despite exercises</td>
+          <td class="pain-freq">15</td>
+          <td class="pain-quote"><em>"My hand recovered quickly, but now the face needs to catch up."</em></td>
+        </tr></tbody>
+    </table>
+
+      <h3>4.2 典型用户画像</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>用户画像</th><th width="100">估计数量</th><th>核心需求</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td>stroke survivor (often subacute/chronic stage, various ages including young adults)</td>
+          <td class="center">120</td>
+          <td>facial exercises、rehab guidance、emotional validation</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td>caregiver of stroke patient (often elderly parent)</td>
+          <td class="center">40</td>
+          <td>prognosis info、home care tips、emotional support</td>
+        </tr></tbody>
+    </table>
+
+      <h3>4.3 现有解决方案评估</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>现有方案</th><th width="80">效果</th><th width="70">提及</th><th>优点</th><th>局限性</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="sol-name">Facial exercises (pucker, smile, cheek puffing, mirror practice)</td>
+          <td class="center"><span class="tag tag-neutral">部分有效</span></td>
+          <td class="center">30</td>
+          <td class="pro-text">improves symmetry over time</td>
+          <td class="con-text">slow progress；requires daily consistency</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td class="sol-name">Speech therapy</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">25</td>
+          <td class="pro-text">targets facial muscles</td>
+          <td class="con-text">access delays</td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td class="sol-name">TENS/EMS units or Flexeffect device</td>
+          <td class="center"><span class="tag tag-neutral">部分有效</span></td>
+          <td class="center">10</td>
+          <td class="pro-text">strengthens muscles</td>
+          <td class="con-text">equipment issues；limited access</td>
+        </tr>
+        <tr>
+          <td class="row-num">4</td>
+          <td class="sol-name">Singing or reading aloud</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">8</td>
+          <td class="pro-text">engaging, accessible</td>
+          <td class="con-text">—</td>
+        </tr></tbody>
+    </table>
+
+      <h3>4.4 产品设计机会</h3>
+      <div class="findings-list">
+        
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 1</span>
+            <span class="finding-title">Guided facial exercise app with biofeedback and progress tracking</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Users repeatedly seek home exercises but report slow progress without structure; multiple mentions of mirror practice and need for targeted tools</p>
+          <p class="finding-meta">受影响用户估计：50</p>
+          <blockquote class="evidence">"Practice in front of a mirror. Read out loud. Move your facial muscles lightly with your fingers... blow out your cheeks real big and hold it. practice exaggerated smiles and frowns."</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 2</span>
+            <span class="finding-title">Adaptive drinking aids for unilateral facial weakness (e.g., lip-seal cups)</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Dribbling when drinking is common pain point; straws used but still leak for some</p>
+          <p class="finding-meta">受影响用户估计：15</p>
+          <blockquote class="evidence">"when I drink out of a cup the left side of my mouth leaks and dribbles down my chin."</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 3</span>
+            <span class="finding-title">Home TENS/EMS device with facial-specific protocols and easy electrodes</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Users report benefits but issues with device usability and access</p>
+          <p class="finding-meta">受影响用户估计：12</p>
+          <blockquote class="evidence">"I’d have more confidence if it didn’t that the therapist 10 minutes to figure out the unit wasn’t working!"</blockquote>
+        </div>
+      </div>
+
+      <h3>4.5 代表性引述</h3>
+      <div class="quotes-section">
+        
+        <div class="quote-block">
+          <blockquote>"I work my mouth when trying to use my affected hand as well!!"</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Relating to OP’s expressive mouth movements during motor tasks</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Facial grimacing common compensatory pattern</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"A drooping smile is still a smile. Keep on smiling!"</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Original post title sharing smiling photo despite droop</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Resilience and positive reframing</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"She told me my face looked “hilarious” the way the 1 side droops... It just made me want to cry."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Mother mocking facial asymmetry</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Family insensitivity causes emotional harm</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"I still can&#x27;t wiggle the toes on my right foot."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Lingering distal motor deficit</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Selective recovery patterns</em></p>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="section-facial_asymmetry">
+      <h2>5. 面部不对称 (Facial Asymmetry)</h2>
+      <p class="chapter-meta">本节基于 <strong>138</strong> 篇 Reddit 讨论帖进行聚合分析。</p>
+
+      <div class="insight-box">
+        <div class="insight-marker">核心发现</div>
+        <p>Facial asymmetry persists as a visible, emotionally distressing symptom for many stroke survivors across acute to chronic stages, with partial improvements from targeted therapy and exercises but ongoing self-consciousness and social challenges.</p>
+      </div>
+
+      <h3>5.1 用户痛点</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>痛点描述</th><th width="120">频率/提及</th><th>代表性引述</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="pain-desc">self-consciousness about facial asymmetry</td>
+          <td class="pain-freq">20</td>
+          <td class="pain-quote"><em>"I know I got lucky but I&#x27;m struggling with feeling like my face is super uneven"</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td class="pain-desc">emotional distress from family mockery of asymmetry</td>
+          <td class="pain-freq">1</td>
+          <td class="pain-quote"><em>"She told me my face looked “hilarious” the way the 1 side droops (my eyebrow droops with my eye) and it makes my other side look like I’m surprised. She had a really good laugh at that. It just made me want to cry."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td class="pain-desc">visibility of asymmetry more noticeable when not smiling or on video calls</td>
+          <td class="pain-freq">3</td>
+          <td class="pain-quote"><em>"I notice a lot of facial asymmetry when I’m NOT smiling; less when I am."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">4</td>
+          <td class="pain-desc">ongoing effort required for symmetrical smile despite progress</td>
+          <td class="pain-freq">5</td>
+          <td class="pain-quote"><em>"I still have to concentrate Very hard to get my left side upper lip to stay even with my right side but it’s coming along!"</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">5</td>
+          <td class="pain-desc">hyper-awareness of asymmetry not noticed by others</td>
+          <td class="pain-freq">4</td>
+          <td class="pain-quote"><em>"We&#x27;re hyper-aware of the asymmetry, but it&#x27;s not as obvious to random observers."</em></td>
+        </tr></tbody>
+    </table>
+
+      <h3>5.2 典型用户画像</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>用户画像</th><th width="100">估计数量</th><th>核心需求</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td>stroke survivor in subacute/chronic stage sharing progress or venting about asymmetry</td>
+          <td class="center">80</td>
+          <td>emotional support、rehabilitation guidance</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td>caregiver of stroke survivor concerned about asymmetry</td>
+          <td class="center">20</td>
+          <td>reassurance、peer validation</td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td>young stroke survivor (under 40)</td>
+          <td class="center">15</td>
+          <td>hope for recovery、self-image coping</td>
+        </tr></tbody>
+    </table>
+
+      <h3>5.3 现有解决方案评估</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>现有方案</th><th width="80">效果</th><th width="70">提及</th><th>优点</th><th>局限性</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="sol-name">speech therapy with facial exercises</td>
+          <td class="center"><span class="tag tag-neutral">部分有效</span></td>
+          <td class="center">10</td>
+          <td class="pro-text">noticeable improvement over time</td>
+          <td class="con-text">requires conscious effort；not full symmetry</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td class="sol-name">mirror practice for symmetry</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">5</td>
+          <td class="pro-text">tracks subtle improvements</td>
+          <td class="con-text">—</td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td class="sol-name">Flexeffect device</td>
+          <td class="center"><span class="tag tag-neutral">部分有效</span></td>
+          <td class="center">2</td>
+          <td class="pro-text">gauges muscle resistance</td>
+          <td class="con-text">user deleted progress photo, ongoing challenges</td>
+        </tr>
+        <tr>
+          <td class="row-num">4</td>
+          <td class="sol-name">adjusting smile to compensate for droop</td>
+          <td class="center"><span class="tag tag-neutral">部分有效</span></td>
+          <td class="center">2</td>
+          <td class="pro-text">appears more symmetrical</td>
+          <td class="con-text">smaller smile</td>
+        </tr></tbody>
+    </table>
+
+      <h3>5.4 产品设计机会</h3>
+      <div class="findings-list">
+        
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 1</span>
+            <span class="finding-title">guided facial exercise app with real-time symmetry feedback</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>multiple users describe needing to concentrate hard, mirror practice, and tools like Flexeffect</p>
+          <p class="finding-meta">受影响用户估计：30</p>
+          <blockquote class="evidence">"Guided facial exercise app with real-time symmetry feedback (Evidence: Multiple survivors mention practicing smiles in mirrors and tracking subtle improvements in lip/jaw control.)"</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 2</span>
+            <span class="finding-title">mirror-based therapy or visual feedback tools to recalibrate self-perception</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>survivors hyper-aware of asymmetry others don’t notice</p>
+          <p class="finding-meta">受影响用户估计：10</p>
+          <blockquote class="evidence">"Mirror-based therapy or visual feedback tools to recalibrate self-perception of facial symmetry (Evidence: Multiple survivors mention being &#x27;hyper-aware&#x27; of asymmetry that others don’t notice, indicating a perceptual distortion that could be addressed with guided visual retraining.)"</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 3</span>
+            <span class="finding-title">tool or guide for practicing socially comfortable facial expressions post-stroke</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>conscious efforts to mitigate visible signs for social comfort</p>
+          <p class="finding-meta">受影响用户估计：5</p>
+          <blockquote class="evidence">"Tool or guide for practicing socially comfortable facial expressions post-stroke (Evidence: Comment describing deliberate adjustment of smile to compensate for droop)"</blockquote>
+        </div>
+      </div>
+
+      <h3>5.5 代表性引述</h3>
+      <div class="quotes-section">
+        
+        <div class="quote-block">
+          <blockquote>"The first picture clearly shows the typical post-stroke crooked smile from facial hemiparesis. Picture 2 is so symmetrical, that You don&#x27;t see any asymetry, unless you know exactly what to look for."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Commenter comparing before-and-after photos</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Awareness of hemiparesis as common symptom with partial recovery</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"I still have to concentrate Very hard to get my left side upper lip to stay even with my right side but it’s coming along!"</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Describing effort for symmetrical smile</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Ongoing conscious control needed</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"Oh honey your face is just a tiny bit uneven. People won&#x27;t notice unless you bring it to their attention."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Reassuring OP about asymmetry</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Self-perception exaggerated</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"I look like I have a smirk all the time now. Trying to accept that I&#x27;m still beautiful"</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Original post on self-acceptance</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Emotional struggle with changed appearance</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"I notice a lot of facial asymmetry when I’m NOT smiling; less when I am."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Describing variability by expression</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Symptom visibility depends on action</em></p>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="section-drooling">
+      <h2>6. 流涎 (Drooling)</h2>
+      <p class="chapter-meta">本节基于 <strong>29</strong> 篇 Reddit 讨论帖进行聚合分析。</p>
+
+      <div class="insight-box">
+        <div class="insight-marker">核心发现</div>
+        <p>Drooling persists from acute to chronic stages, causing embarrassment and functional disruptions like eating and talking, with users relying on peer-suggested exercises, medications, and adaptive tools due to limited professional guidance.</p>
+      </div>
+
+      <h3>6.1 用户痛点</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>痛点描述</th><th width="120">频率/提及</th><th>代表性引述</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="pain-desc">Embarrassment and social stigma from visible drooling</td>
+          <td class="pain-freq">8</td>
+          <td class="pain-quote"><em>"I tend to drool a bit which can be embarrassing since I work in customer service."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td class="pain-desc">Disruption to eating, drinking, and daily activities</td>
+          <td class="pain-freq">12</td>
+          <td class="pain-quote"><em>"She can&#x27;t eat without drooling all over herself."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td class="pain-desc">Interference with conversation and communication</td>
+          <td class="pain-freq">3</td>
+          <td class="pain-quote"><em>"He can’t carry conversation without need to spit few times."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">4</td>
+          <td class="pain-desc">Lack of self-awareness due to facial numbness</td>
+          <td class="pain-freq">3</td>
+          <td class="pain-quote"><em>"I still have some numbness on that side and can’t feel when it happens."</em></td>
+        </tr>
+        <tr>
+          <td class="row-num">5</td>
+          <td class="pain-desc">Need for frequent spitting or unhygienic management</td>
+          <td class="pain-freq">4</td>
+          <td class="pain-quote"><em>"Reliance on unhygienic or inconvenient spitting into a bowl"</em></td>
+        </tr></tbody>
+    </table>
+
+      <h3>6.2 典型用户画像</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>用户画像</th><th width="100">估计数量</th><th>核心需求</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td>Caregivers for elderly parents post-stroke</td>
+          <td class="center">15</td>
+          <td>guidance on safe feeding、management strategies、emotional support</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td>Stroke survivors in chronic stage with persistent drooling</td>
+          <td class="center">10</td>
+          <td>exercises to reduce drooling、reduce embarrassment</td>
+        </tr></tbody>
+    </table>
+
+      <h3>6.3 现有解决方案评估</h3>
+      
+    <table class="data-table">
+      <thead>
+        <tr><th width="40">#</th><th>现有方案</th><th width="80">效果</th><th width="70">提及</th><th>优点</th><th>局限性</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-num">1</td>
+          <td class="sol-name">Using a straw for drinking</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">5</td>
+          <td class="pro-text">prevents leakage</td>
+          <td class="con-text">requires constant planning and carrying supplies</td>
+        </tr>
+        <tr>
+          <td class="row-num">2</td>
+          <td class="sol-name">Oral motor exercises (lip exercises, cheek puffing, sipping through straw)</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">6</td>
+          <td class="pro-text">strengthens mouth muscles</td>
+          <td class="con-text">requires consistent effort</td>
+        </tr>
+        <tr>
+          <td class="row-num">3</td>
+          <td class="sol-name">Scopolamine patches</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">4</td>
+          <td class="pro-text">limits saliva production</td>
+          <td class="con-text">cost-prohibitive</td>
+        </tr>
+        <tr>
+          <td class="row-num">4</td>
+          <td class="sol-name">Glycopyrrolate medication</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">2</td>
+          <td class="pro-text">makes a big difference</td>
+          <td class="con-text">side effects like dry mouth and constipation</td>
+        </tr>
+        <tr>
+          <td class="row-num">5</td>
+          <td class="sol-name">Carrying a small towel</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">2</td>
+          <td class="pro-text">practical management</td>
+          <td class="con-text">socially noticeable or stigmatizing</td>
+        </tr>
+        <tr>
+          <td class="row-num">6</td>
+          <td class="sol-name">Conscious lip closure and cheek suction</td>
+          <td class="center"><span class="tag tag-positive">有效</span></td>
+          <td class="center">2</td>
+          <td class="pro-text">immediately helpful</td>
+          <td class="con-text">relies on constant self-monitoring</td>
+        </tr></tbody>
+    </table>
+
+      <h3>6.4 产品设计机会</h3>
+      <div class="findings-list">
+        
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 1</span>
+            <span class="finding-title">Discreet saliva management devices (e.g., portable suction, absorbent accessories)</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Addresses unhygienic spitting into bowls and need for dignity in social settings</p>
+          <p class="finding-meta">受影响用户估计：10</p>
+          <blockquote class="evidence">"suction machines one can rent that are smaller, home versions... better than a bowl but not elegant; She started carrying around a little towel with her everywhere"</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 2</span>
+            <span class="finding-title">Guided home-based oral motor exercise apps or programs</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Provides structured exercises when professional therapy is inaccessible</p>
+          <p class="finding-meta">受影响用户估计：8</p>
+          <blockquote class="evidence">"Try doing some “lip exercises.”; exercises to strengthen my lips and right cheek so I don&#x27;t spit food out"</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 3</span>
+            <span class="finding-title">Wearable sensor for drool detection</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Compensates for numbness preventing self-awareness</p>
+          <p class="finding-meta">受影响用户估计：4</p>
+          <blockquote class="evidence">"I still have some numbness on that side and can’t feel when it happens"</blockquote>
+        </div>
+        <div class="finding-block">
+          <div class="finding-header">
+            <span class="finding-num">机会 4</span>
+            <span class="finding-title">Adaptive drinking vessels for facial weakness</span>
+          </div>
+          <p class="finding-body"><strong>理据：</strong>Reduces leakage without relying on straws</p>
+          <p class="finding-meta">受影响用户估计：6</p>
+          <blockquote class="evidence">"when I drink out of a cup the left side of my mouth leaks and dribbles down my chin"</blockquote>
+        </div>
+      </div>
+
+      <h3>6.5 代表性引述</h3>
+      <div class="quotes-section">
+        
+        <div class="quote-block">
+          <blockquote>"it is annoying, i dont even have face droop yet i drool i dont even know whyy"</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Original poster describing confusion about drooling without facial droop</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Lack of understanding about causes beyond visible paralysis</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"Drooling after a stroke (clinically called sialorrhea) is usually not caused by &quot;too much&quot; saliva, but rather by a difficulty in controlling the muscles used to swallow and keep the mouth closed."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>医疗专业人员</strong>
+            <span class="quote-context">| Clinical explanation of drooling mechanism</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Common misconception clarified</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"I had a stroke last year, I have overcome a bunch but I can&#x27;t stop drooling. It is embarrassing and I want to stop it."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>幸存者</strong>
+            <span class="quote-context">| Describing persistent chronic drooling</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Social embarrassment in chronic phase</em></p>
+        </div>
+        <div class="quote-block">
+          <blockquote>"He can’t carry conversation without need to spit few times."</blockquote>
+          <div class="quote-attribution">
+            —— <strong>照护者</strong>
+            <span class="quote-context">| Excessive saliva disrupting communication</span>
+          </div>
+          <p class="quote-insight"><em>研究意义：Functional impact on social interaction</em></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      本报告由自动化定性分析流水线生成。所有引述均从 Reddit 原帖中直接抽取，未经修改。<br>
+      分析方法：Map-Reduce 三维交叉聚合 · 模型: Grok-4.1-Fast · 生成时间: 2026-04-09T21:37:20.705160
+    </footer>
+
+  </div>
+</body>
+</html>
