@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>试玩游戏 - Cure（可愈）</title>
+    <title>正在进入守门员游戏 - Cure（可愈）</title>
+    <meta http-equiv="refresh" content="0; url=/game/goalkeeper/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -21,100 +22,66 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
             font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #000;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        /* Top Navigation */
-        .navbar {
-            height: 56px;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--primary-100);
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            flex-shrink: 0;
-            z-index: 1000;
-        }
-        
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
+            background: linear-gradient(180deg, #f5f9fc 0%, #eef5fb 100%);
             color: var(--text-primary);
-            font-weight: 700;
-            font-size: 18px;
         }
-        
-        .nav-brand:hover { color: var(--primary-700); }
-        
-        .nav-logo {
-            width: 32px;
-            height: 32px;
+
+        .card {
+            width: min(92vw, 520px);
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid var(--primary-100);
+            border-radius: 24px;
+            box-shadow: 0 20px 48px rgba(30, 58, 95, 0.12);
+            padding: 32px 28px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 54px;
+            height: 54px;
+            margin: 0 auto 18px;
             background: linear-gradient(135deg, var(--primary-700), var(--primary-500));
-            border-radius: 8px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 16px;
+            font-size: 22px;
             font-weight: 700;
         }
-        
-        .nav-links {
-            margin-left: auto;
-            display: flex;
-            gap: 24px;
-            list-style: none;
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 1.6rem;
         }
-        
-        .nav-links a {
+
+        p {
+            margin: 0 0 20px;
             color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--primary-700);
+            font-weight: 600;
             text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        
-        .nav-links a:hover { color: var(--primary-700); }
-        .nav-links a.active { color: var(--primary-700); font-weight: 600; }
-        
-        /* Game Container */
-        .game-wrapper {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .game-wrapper iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
         }
     </style>
+    <script>
+        window.location.replace('/game/goalkeeper/')
+    </script>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="/" class="nav-brand">
-            <div class="nav-logo">C</div>
-            <span>Cure（可愈）</span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="/">项目介绍</a></li>
-            <li><a href="/report/">研究报告</a></li>
-            <li><a href="/game/play.html" class="active">试玩游戏</a></li>
-        </ul>
-    </nav>
-    
-    <div class="game-wrapper">
-        <iframe src="./index.html" allow="camera; microphone"></iframe>
+    <div class="card">
+        <div class="logo">C</div>
+        <h1>正在进入足球守门员语言训练</h1>
+        <p>旧的 `/game/play.html` 链接会自动跳转到新的守门员游戏入口。如果没有自动跳转，请手动打开下方链接。</p>
+        <a href="/game/goalkeeper/">前往守门员游戏</a>
     </div>
 </body>
 </html>

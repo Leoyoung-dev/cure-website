@@ -1,276 +1,908 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Cross-Origin headers for SharedArrayBuffer support in Godot 4 Web exports -->
-<meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
-<meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
-<title>敦煌壁画守护者 — 灰模原型</title>
-<style>
-body { margin: 0; padding: 0; overflow: hidden; background: #000; display: flex; }
-#game-container { flex: 1; height: 100vh; position: relative; }
-#game-canvas { width: 100%; height: 100%; display: block; }
-#webcam-container { width: 320px; height: 240px; position: absolute; bottom: 20px; right: 20px; z-index: 10; border: 2px solid #5bb381; border-radius: 8px; overflow: hidden; background: #333; }
-#webcam { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
-#output_canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: scaleX(-1); pointer-events: none; }
-#debug-overlay {
-	position: fixed; top: 10px; right: 10px;
-	background: rgba(0,0,0,0.7); color: #0f0; font: 14px monospace;
-	padding: 10px; border-radius: 4px; z-index: 100;
-	pointer-events: none; white-space: pre-line;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏中心 - Cure（可愈）</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4f6f8;
+            --surface: rgba(255, 255, 255, 0.92);
+            --surface-strong: #ffffff;
+            --line: rgba(17, 30, 45, 0.1);
+            --line-strong: rgba(17, 30, 45, 0.16);
+            --text: #172536;
+            --muted: #627385;
+            --blue: #1e5f94;
+            --blue-soft: rgba(30, 95, 148, 0.1);
+            --green: #16806c;
+            --green-soft: rgba(22, 128, 108, 0.12);
+            --amber: #9a6a1d;
+            --amber-soft: rgba(154, 106, 29, 0.12);
+            --shadow: 0 24px 56px rgba(17, 30, 45, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Manrope', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(30, 95, 148, 0.08), transparent 28%),
+                linear-gradient(180deg, #fafbfd 0%, var(--bg) 100%);
+        }
+
+        .icon {
+            width: 1em;
+            height: 1em;
+            display: inline-block;
+            vertical-align: middle;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .nav-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.12rem;
+            font-weight: 800;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            background: linear-gradient(135deg, #29577e, #3f7db1);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 22px;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.94rem;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--blue);
+        }
+
+        .shell {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 42px 24px 84px;
+        }
+
+        .header {
+            margin-bottom: 28px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: var(--blue-soft);
+            color: var(--blue);
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 4vw, 3.6rem);
+            line-height: 1.02;
+            letter-spacing: -0.05em;
+            margin-bottom: 14px;
+        }
+
+        .lead {
+            max-width: 780px;
+            color: var(--muted);
+            font-size: 1.03rem;
+            line-height: 1.9;
+        }
+
+        .tracks {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .tracks li {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .section-head h2 {
+            font-size: 0.96rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .section-head span {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .app-list {
+            list-style: none;
+            display: grid;
+            gap: 18px;
+        }
+
+        .app-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+        }
+
+        .app-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .app-title-group {
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .app-icon {
+            width: 68px;
+            height: 68px;
+            border-radius: 20px;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            flex: 0 0 auto;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+        }
+
+        .icon-goalkeeper {
+            background: linear-gradient(135deg, #1a4f79, #2f7ea9);
+        }
+
+        .icon-tongue {
+            background: linear-gradient(135deg, #265d8f, #6792b7);
+        }
+
+        .icon-swallow {
+            background: linear-gradient(135deg, #4f6a83, #8ba3b9);
+        }
+
+        .app-copy {
+            min-width: 0;
+        }
+
+        .app-name {
+            font-size: 1.32rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 5px;
+        }
+
+        .app-subtitle {
+            color: var(--muted);
+            font-size: 0.93rem;
+            line-height: 1.6;
+        }
+
+        .app-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+            flex: 0 0 auto;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .status-live {
+            background: var(--green-soft);
+            color: var(--green);
+        }
+
+        .status-concept {
+            background: var(--amber-soft);
+            color: var(--amber);
+        }
+
+        .status-research {
+            background: var(--blue-soft);
+            color: var(--blue);
+        }
+
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 92px;
+            padding: 10px 18px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 700;
+            transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+        }
+
+        .cta:hover {
+            transform: translateY(-1px);
+        }
+
+        .cta-primary {
+            background: var(--text);
+            color: #fff;
+        }
+
+        .cta-secondary {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--line-strong);
+            color: var(--text);
+        }
+
+        .cta-disabled {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--line);
+            color: var(--muted);
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .caption {
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .app-body {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+            gap: 22px;
+            align-items: stretch;
+        }
+
+        .app-description {
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.9;
+            margin-bottom: 14px;
+        }
+
+        .app-note {
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+
+        .feature-list {
+            list-style: none;
+            display: grid;
+            gap: 10px;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .feature-list li::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            margin-top: 10px;
+            border-radius: 999px;
+            background: var(--blue);
+            flex: 0 0 auto;
+        }
+
+        .media-card {
+            overflow: hidden;
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            background: #0f1825;
+            min-height: 320px;
+            position: relative;
+        }
+
+        .live-preview {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at top, rgba(95, 167, 219, 0.18), transparent 38%),
+                linear-gradient(180deg, #111a29 0%, #0a1019 100%);
+        }
+
+        .live-preview iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 205%;
+            height: 205%;
+            border: 0;
+            transform: translate(-50%, -52%) scale(0.5);
+            transform-origin: center;
+            pointer-events: none;
+            filter: saturate(0.96) contrast(1.02);
+        }
+
+        .media-overlay {
+            position: absolute;
+            inset: auto 14px 14px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            background: rgba(7, 13, 22, 0.64);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(10px);
+        }
+
+        .media-overlay strong {
+            display: block;
+            font-size: 0.92rem;
+            margin-bottom: 2px;
+        }
+
+        .media-overlay span {
+            color: rgba(255, 255, 255, 0.68);
+            font-size: 0.8rem;
+        }
+
+        .concept-art {
+            position: absolute;
+            inset: 0;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #f4f7fb;
+        }
+
+        .concept-surface {
+            position: absolute;
+            inset: 0;
+        }
+
+        .art-bike .concept-surface {
+            background:
+                radial-gradient(circle at 20% 18%, rgba(169, 210, 255, 0.18), transparent 20%),
+                linear-gradient(160deg, #19334d 0%, #273c58 45%, #4f6c83 100%);
+        }
+
+        .art-race .concept-surface {
+            background:
+                radial-gradient(circle at 80% 18%, rgba(190, 228, 255, 0.16), transparent 22%),
+                linear-gradient(165deg, #1a2937 0%, #385064 55%, #738ea5 100%);
+        }
+
+        .concept-topline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .concept-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .concept-visual {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bike-scene,
+        .race-scene {
+            width: 100%;
+            max-width: 360px;
+            aspect-ratio: 4 / 3;
+            position: relative;
+        }
+
+        .road {
+            position: absolute;
+            left: 16%;
+            right: 16%;
+            bottom: 10%;
+            height: 22%;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: skewX(-12deg);
+        }
+
+        .bike {
+            position: absolute;
+            left: 50%;
+            bottom: 22%;
+            width: 118px;
+            height: 56px;
+            transform: translateX(-50%) rotate(-10deg);
+        }
+
+        .bike::before,
+        .bike::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            border: 3px solid rgba(255, 255, 255, 0.88);
+        }
+
+        .bike::before {
+            left: 8px;
+        }
+
+        .bike::after {
+            right: 8px;
+        }
+
+        .bike-body {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            top: 10px;
+            height: 20px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.88);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+        }
+
+        .tongue-arrows {
+            position: absolute;
+            inset: auto 0 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 0.88rem;
+            font-weight: 700;
+        }
+
+        .tongue-arrows span {
+            padding: 8px 10px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .track {
+            position: absolute;
+            left: 8%;
+            right: 8%;
+            top: 48%;
+            height: 84px;
+            border-radius: 999px;
+            border: 2px solid rgba(255, 255, 255, 0.68);
+        }
+
+        .lane {
+            position: absolute;
+            left: 12%;
+            right: 12%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.82) 50%, rgba(255, 255, 255, 0.2) 100%);
+        }
+
+        .lane-top {
+            top: 56%;
+        }
+
+        .lane-bottom {
+            top: 69%;
+        }
+
+        .runner {
+            position: absolute;
+            width: 56px;
+            height: 34px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: #13222f;
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.16);
+        }
+
+        .runner-rabbit {
+            left: 18%;
+            top: 48%;
+        }
+
+        .runner-turtle {
+            right: 20%;
+            top: 64%;
+        }
+
+        .cooldown {
+            position: absolute;
+            left: 50%;
+            bottom: 8%;
+            transform: translateX(-50%);
+            padding: 9px 12px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .below-note {
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 940px) {
+            .app-body {
+                grid-template-columns: 1fr;
+            }
+
+            .media-card {
+                min-height: 300px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .nav-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 14px;
+            }
+
+            .shell {
+                padding: 34px 16px 60px;
+            }
+
+            .app-card {
+                padding: 18px;
+                border-radius: 24px;
+            }
+
+            .app-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .app-title-group {
+                align-items: flex-start;
+            }
+
+            .app-actions {
+                width: 100%;
+                align-items: flex-start;
+            }
+
+            .cta {
+                width: 100%;
+            }
+
+            .media-card {
+                min-height: 280px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div id="game-container">
-	<canvas id="game-canvas"></canvas>
-	<div id="webcam-container">
-		<video id="webcam" autoplay playsinline></video>
-		<canvas id="output_canvas"></canvas>
-	</div>
-</div>
-<div id="debug-overlay">
-	<div id="debug-text">等待加载...</div>
-</div>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="/" class="brand">
+                <span class="brand-mark">C</span>
+                <span>Cure（可愈）</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">项目介绍</a></li>
+                <li><a href="/report/">研究报告</a></li>
+                <li><a href="/game/" class="active">游戏中心</a></li>
+            </ul>
+        </div>
+    </nav>
 
-<!-- Load Godot 4 Engine Script -->
-<script src="index.js"></script>
+    <main class="shell">
+        <section class="header">
+            <div class="eyebrow">
+                <svg class="icon" width="16" height="16"><use href="../assets/icons.svg#gamepad"/></svg>
+                康复训练列表
+            </div>
+            <h1>把训练动作做成像应用一样容易进入。</h1>
+            <p class="lead">朗读单词是常见的锻炼言语能力、改善失语症（Aphasia）问题的康复训练动作。当前页面采用接近 App Store 的列表式展示：先把可用训练明确列出，再为后续的舌肌训练与用力吞咽训练预留独立位置。</p>
+            <ul class="tracks">
+                <li><svg class="icon" width="16" height="16"><use href="../assets/icons.svg#chat"/></svg> 言语训练：已上线</li>
+                <li><svg class="icon" width="16" height="16"><use href="../assets/icons.svg#lightning"/></svg> 舌肌训练：规划中</li>
+                <li><svg class="icon" width="16" height="16"><use href="../assets/icons.svg#heart"/></svg> 吞咽训练：规划中</li>
+            </ul>
+        </section>
 
-<script type="module">
-// ===== Godot 4 Engine Initialization =====
-const engine = new Engine({"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":5077108,"index.wasm":37695054},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4});
+        <section>
+            <div class="section-head">
+                <h2>Training Apps</h2>
+                <span>当前共 3 个训练方向，其中 1 项可玩</span>
+            </div>
 
-engine.startGame({
-	"onProgress": function (current, total) {
-		if (total > 0) {
-			document.getElementById("debug-text").textContent = `Godot加载中... ${Math.round(current / total * 100)}%`;
-		}
-	}
-}).then(() => {
-	document.getElementById("debug-text").textContent = "Godot加载完成！正在初始化MediaPipe...";
-	initializeFaceTracker().catch(err => {
-		document.getElementById("debug-text").textContent = "Tracker Error: " + err.message;
-		console.error("[FaceTracker] Init error:", err);
-	});
-});
+            <ol class="app-list">
+                <li class="app-card">
+                    <div class="app-top">
+                        <div class="app-title-group">
+                            <div class="app-icon icon-goalkeeper">GK</div>
+                            <div class="app-copy">
+                                <div class="app-name">足球守门员语言训练</div>
+                                <div class="app-subtitle">Speech Goalkeeper Prototype · 朗读与构音训练</div>
+                            </div>
+                        </div>
+                        <div class="app-actions">
+                            <div class="status status-live">Live</div>
+                            <a href="/game/goalkeeper/" class="cta cta-primary">开始</a>
+                            <div class="caption">浏览器即玩</div>
+                        </div>
+                    </div>
 
-// ===== MediaPipe Face Landmarker Integration =====
-import { FilesetResolver, FaceLandmarker, DrawingUtils } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/vision_bundle.mjs";
+                    <div class="app-body">
+                        <div>
+                            <p class="app-description">用户朗读目标单词，守门员会给出扑救、出击或解围反馈，把单词朗读训练和即时视觉反馈合并成一个浏览器小游戏。</p>
+                            <p class="app-note">当前版本聚焦失语症与构音困难场景，使用浏览器语音识别完成输入，不需要安装客户端。页面内保留真实游戏界面预览，用户可以像选择应用一样快速进入训练。</p>
+                            <ul class="feature-list">
+                                <li>训练动作：朗读英文目标词，系统根据识别结果判定是否扑救成功。</li>
+                                <li>输入方式：浏览器麦克风 + Web Speech API，无需额外硬件。</li>
+                                <li>反馈形式：3D 守门员、球路动画、即时状态提示与词汇匹配。</li>
+                            </ul>
+                            <p class="below-note"><a href="/report/" style="color: var(--blue); text-decoration: none; font-weight: 700;">查看研究背景</a>，可了解该游戏与朗读训练证据之间的对应关系。</p>
+                        </div>
 
-let faceLandmarker = null;
-let videoElement = document.getElementById("webcam");
-let canvasElement = document.getElementById("output_canvas");
-let canvasCtx = canvasElement.getContext("2d");
-let drawingUtils = null;
-let lastVideoTime = -1;
+                        <div class="media-card">
+                            <div class="live-preview">
+                                <iframe
+                                    src="/game/goalkeeper/"
+                                    title="守门员语言训练预览"
+                                    loading="lazy"
+                                    tabindex="-1"
+                                    aria-hidden="true"
+                                ></iframe>
+                            </div>
+                            <div class="media-overlay">
+                                <div>
+                                    <strong>游戏界面预览</strong>
+                                    <span>列表页内展示真实界面，点击右上角按钮进入正式训练</span>
+                                </div>
+                                <svg class="icon" width="18" height="18"><use href="../assets/icons.svg#eye"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </li>
 
-const AMPLIFY = 5.0;
+                <li class="app-card">
+                    <div class="app-top">
+                        <div class="app-title-group">
+                            <div class="app-icon icon-tongue">LT</div>
+                            <div class="app-copy">
+                                <div class="app-name">Laifor 摩托车</div>
+                                <div class="app-subtitle">Tongue Mobility Balance · 舌肌训练 / 技术验证阶段</div>
+                            </div>
+                        </div>
+                        <div class="app-actions">
+                            <div class="status status-concept">Concept</div>
+                            <span class="cta cta-disabled">规划中</span>
+                            <div class="caption">等待舌位检测方案稳定</div>
+                        </div>
+                    </div>
 
-// Global state bridge to Godot (SignalReceiver.gd expects this exact structure)
-window.godotFaceData = window.godotFaceData || {
-	puff_score: 0,
-	jaw_open_score: 0,
-	head_yaw: 0,
-	pucker_score: 0,
-	emg_swallow: false,
-	active: false
-};
+                    <div class="app-body">
+                        <div>
+                            <p class="app-description">围绕舌头左右伸展与活动度训练设计的平衡游戏：Laifor 小狗骑着摩托车不断向一侧倾斜，玩家需要向反方向伸舌，帮助车身重新回正。</p>
+                            <p class="app-note">该原型基于舌肌训练游戏化研究与舌活动度对游戏操作表现的证据，目标是把“左右伸舌”这类重复训练，转化成更直观的平衡修正反馈。</p>
+                            <ul class="feature-list">
+                                <li>拟训练动作：向左伸舌 / 向右伸舌，对应摩托车反向回正。</li>
+                                <li>核心难点：浏览器端对舌部方向的语义识别仍需进一步验证。</li>
+                                <li>当前状态：概念已明确，输入检测方案还在技术路线评估中。</li>
+                            </ul>
+                        </div>
 
-async function initializeFaceTracker() {
-	const filesetResolver = await FilesetResolver.forVisionTasks(
-		"https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm"
-	);
-	faceLandmarker = await FaceLandmarker.createFromOptions(filesetResolver, {
-		baseOptions: {
-			modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
-			delegate: "CPU"  // CRITICAL: GPU produces all-zero BlendShapes on web
-		},
-		outputFaceBlendshapes: true,
-		outputFacialTransformationMatrixes: true,  // REQUIRED for head_yaw
-		runningMode: "VIDEO",
-		numFaces: 1
-	});
-	document.getElementById("debug-text").textContent = "Face model loaded. Starting camera...";
-	await enableCam();
-}
+                        <div class="media-card">
+                            <div class="concept-art art-bike">
+                                <div class="concept-surface"></div>
+                                <div class="concept-topline">
+                                    <span class="concept-badge">Tongue Training</span>
+                                    <span class="concept-badge">CV Validation</span>
+                                </div>
+                                <div class="concept-visual">
+                                    <div class="bike-scene">
+                                        <div class="road"></div>
+                                        <div class="bike">
+                                            <div class="bike-body"></div>
+                                        </div>
+                                        <div class="tongue-arrows">
+                                            <span>车身左倾</span>
+                                            <span>右伸舌回正</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="media-overlay">
+                                    <div>
+                                        <strong>概念预留位</strong>
+                                        <span>主题明确，后续补入正式原型截图</span>
+                                    </div>
+                                    <svg class="icon" width="18" height="18"><use href="../assets/icons.svg#lightning"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
 
-async function enableCam() {
-	const stream = await navigator.mediaDevices.getUserMedia({
-		video: { width: 320, height: 240, facingMode: "user" }
-	});
-	videoElement.srcObject = stream;
-	await videoElement.play();
-	document.getElementById("debug-text").textContent = "Camera active. Tracking...";
-	requestAnimationFrame(predictWebcam);
-}
+                <li class="app-card">
+                    <div class="app-top">
+                        <div class="app-title-group">
+                            <div class="app-icon icon-swallow">SW</div>
+                            <div class="app-copy">
+                                <div class="app-name">龟兔赛跑</div>
+                                <div class="app-subtitle">Effortful Swallow Race · 用力吞咽训练 / 研究驱动概念</div>
+                            </div>
+                        </div>
+                        <div class="app-actions">
+                            <div class="status status-research">Research</div>
+                            <span class="cta cta-disabled">概念设计</span>
+                            <div class="caption">等待输入方案与界面原型</div>
+                        </div>
+                    </div>
 
-function predictWebcam() {
-	if (canvasElement.width !== videoElement.videoWidth && videoElement.videoWidth > 0) {
-		canvasElement.width = videoElement.videoWidth;
-		canvasElement.height = videoElement.videoHeight;
-	}
+                    <div class="app-body">
+                        <div>
+                            <p class="app-description">把传统“龟兔赛跑”改造成吞咽训练竞速：乌龟以恒定速度前进，兔子只有在玩家完成一次 effortful swallow 后才会向前冲刺。</p>
+                            <p class="app-note">这个方向基于 effortful swallow 与游戏化 EMG 生物反馈研究，希望把枯燥的重复吞咽动作转成节奏清晰、反馈立即可见的竞赛过程。</p>
+                            <ul class="feature-list">
+                                <li>拟训练动作：一次用力吞咽对应一次“吃草加速”。</li>
+                                <li>玩法约束：吞咽之间设置冷却间隔，贴近真实训练节奏。</li>
+                                <li>当前状态：叙事与规则已成型，输入采集与前端界面尚未实现。</li>
+                            </ul>
+                        </div>
 
-	if (videoElement && videoElement.readyState >= 2 && videoElement.currentTime !== lastVideoTime) {
-		lastVideoTime = videoElement.currentTime;
-		const results = faceLandmarker.detectForVideo(videoElement, performance.now());
-
-		if (canvasElement.width > 0) {
-			canvasCtx.save();
-			canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-		}
-
-		window.godotFaceData.active = false;
-
-		if (results.faceLandmarks && results.faceLandmarks.length > 0) {
-			window.godotFaceData.active = true;
-			const landmarks = results.faceLandmarks[0];
-
-			if (canvasElement.width > 0) {
-				if (!drawingUtils) drawingUtils = new DrawingUtils(canvasCtx);
-				drawingUtils.drawConnectors(landmarks, FaceLandmarker.FACE_LANDMARKS_TESSELATION, { color: "#C0C0C070", lineWidth: 1 });
-				drawingUtils.drawConnectors(landmarks, FaceLandmarker.FACE_LANDMARKS_LIPS, { color: "#5bb381", lineWidth: 2 });
-			}
-
-			let rawPuffScore = 0;
-			let rawPuckerScore = 0;
-			let rawJawOpenScore = 0;
-			let topCategories = [];
-
-			// Extract BlendShapes
-			if (results.faceBlendshapes && results.faceBlendshapes.length > 0) {
-				const blendshapes = results.faceBlendshapes[0].categories;
-				
-				// Diagnostic: Log all category names once so we can see the exact strings
-				if (!window.hasLoggedCategories) {
-					console.log("[FaceTracker] All available categories:", blendshapes.map(c => c.categoryName).sort());
-					window.hasLoggedCategories = true;
-				}
-
-				// Sort to find top signals for debugging (Expand to top 10)
-				topCategories = [...blendshapes].sort((a, b) => b.score - a.score).slice(0, 10);
-
-				for (let i = 0; i < blendshapes.length; i++) {
-					const name = blendshapes[i].categoryName;
-					const score = blendshapes[i].score;
-					
-					// Robust check for cheekPuff + cheekPuffLeft/Right variants
-					if (name.toLowerCase().includes("cheekpuff")) {
-						rawPuffScore += score;
-					}
-					if (name === "mouthPucker") rawPuckerScore += score;
-					if (name === "jawOpen") rawJawOpenScore += score;
-					// Diagnostic: log cheekPuff once to confirm it exists
-					if (name === "cheekPuff" && !window._loggedCheekPuff) {
-						console.log("[FaceTracker] cheekPuff raw value:", score);
-						window._loggedCheekPuff = true;
-					}
-				}
-			}
-
-			// Extract Head Yaw from Transformation Matrix
-			let headYaw = 0;
-			if (results.facialTransformationMatrixes && results.facialTransformationMatrixes.length > 0) {
-				const m = results.facialTransformationMatrixes[0].data;
-				headYaw = -Math.atan2(m[8], m[10]);  // 取反：CSS镜像了视频显示，MediaPipe处理原始像素
-			}
-
-			// === Mutual-exclusive signal routing ===
-			// When cheekPuff is unavailable (raw ≈ 0), mouthPucker drives
-			// BOTH puff and pucker actions.  We use jawOpen to decide which
-			// channel receives the signal.  ONLY ONE channel gets a non-zero
-			// value per frame — this eliminates the "both channels fight"
-			// problem that caused hold-progress bars to reset.
-			//
-			// Discrimination (from user testing data):
-			//   鼓腮 (puff):  jawOpen raw ≥ 0.06  (Godot smoothed ≥ 0.3)
-			//   嘟嘴 (pucker): jawOpen raw ≤ 0.04  (Godot smoothed ≤ 0.2)
-			//   Threshold: 0.045 raw  (midpoint of gap)
-			const JAW_PUFF_THRESHOLD = 0.045;
-			const PUCKER_MIN_FOR_ROUTING = 0.12;
-			const STATE_HOLD_MIN = 5;  // 至少 5 帧才允许切换路由
-
-			let finalPuffScore = rawPuffScore;
-			let finalPuckerScore = rawPuckerScore;
-			let routeLabel = '';
-
-			if (rawPuffScore < 0.05) {
-				// cheekPuff unavailable — use jawOpen to route mouthPucker
-				let newState = 'idle';
-				if (rawPuckerScore > PUCKER_MIN_FOR_ROUTING) {
-					newState = rawJawOpenScore > JAW_PUFF_THRESHOLD ? 'puff' : 'pucker';
-				}
-
-				// Sticky state: require STATE_HOLD_MIN consecutive frames
-				// of a DIFFERENT state before switching
-				if (newState !== window._routingState) {
-					window._stateHoldFrames = (window._stateHoldFrames || 0) + 1;
-					if (window._stateHoldFrames >= STATE_HOLD_MIN) {
-						window._routingState = newState;
-						window._stateHoldFrames = 0;
-					}
-					// Before confirmed switch, keep previous routing
-				} else {
-					window._stateHoldFrames = 0;
-				}
-
-				// Initialize on first frame
-				if (!window._routingState) window._routingState = 'idle';
-
-				// Apply exclusive routing based on confirmed state
-				if (window._routingState === 'puff') {
-					finalPuffScore = rawPuckerScore * 0.8;
-					finalPuckerScore = 0;   // ★ 关键：pucker 通道清零
-					routeLabel = '[PUFF路由]';
-				} else if (window._routingState === 'pucker') {
-					finalPuffScore = 0;
-					finalPuckerScore = rawPuckerScore;
-					routeLabel = '[PUCKER路由]';
-				} else {
-					// idle: both channels get natural (low) values
-					finalPuffScore = 0;
-					finalPuckerScore = rawPuckerScore;
-				}
-			}
-
-			window.godotFaceData.puff_score = finalPuffScore * AMPLIFY;
-			window.godotFaceData.jaw_open_score = rawJawOpenScore * AMPLIFY;
-			window.godotFaceData.pucker_score = finalPuckerScore * AMPLIFY;
-			window.godotFaceData.head_yaw = headYaw;
-
-			const debugDiv = document.getElementById("debug-text");
-			const topStr = topCategories.map(c => `${c.categoryName}: ${c.score.toFixed(2)}`).join(" | ");
-			debugDiv.textContent =
-				`Godot <--> MediaPipe [Active] ${routeLabel}\n` +
-				`鼓颊 (Puff): ${window.godotFaceData.puff_score.toFixed(2)}\n` +
-				`张嘴 (Jaw): ${window.godotFaceData.jaw_open_score.toFixed(2)}\n` +
-				`嘟嘴 (Pucker): ${window.godotFaceData.pucker_score.toFixed(2)}\n` +
-				`偏头 (Yaw): ${(window.godotFaceData.head_yaw * 180 / Math.PI).toFixed(1)}°\n` +
-				`cheekPuff raw: ${rawPuffScore.toFixed(3)} | jawOpen: ${rawJawOpenScore.toFixed(3)} | route: ${window._routingState || 'init'}\n` +
-				`最强信号: ${topStr}\n` +
-				`(游戏内按 E 模拟吞咽加水)`;
-		} else {
-			document.getElementById("debug-text").textContent = "No face detected (未检测到人脸)";
-		}
-		if (canvasElement.width > 0) {
-			canvasCtx.restore();
-		}
-	}
-	requestAnimationFrame(predictWebcam);
-}
-
-// 绑定全局键盘按下事件，模拟 swallow (原 MVP 里用的)
-window.addEventListener('keydown', (e) => {
-	if (e.code === 'KeyE') {
-		window.godotFaceData.emg_swallow = true;
-	}
-});
-window.addEventListener('keyup', (e) => {
-	if (e.code === 'KeyE') {
-		window.godotFaceData.emg_swallow = false;
-	}
-});
-
-</script>
+                        <div class="media-card">
+                            <div class="concept-art art-race">
+                                <div class="concept-surface"></div>
+                                <div class="concept-topline">
+                                    <span class="concept-badge">Swallow Game</span>
+                                    <span class="concept-badge">EMG Ready</span>
+                                </div>
+                                <div class="concept-visual">
+                                    <div class="race-scene">
+                                        <div class="track"></div>
+                                        <div class="lane lane-top"></div>
+                                        <div class="lane lane-bottom"></div>
+                                        <div class="runner runner-rabbit">Rabbit</div>
+                                        <div class="runner runner-turtle">Turtle</div>
+                                        <div class="cooldown">吞咽冷却后再次冲刺</div>
+                                    </div>
+                                </div>
+                                <div class="media-overlay">
+                                    <div>
+                                        <strong>研究驱动预留位</strong>
+                                        <span>后续接入 effortful swallow 输入与竞速界面</span>
+                                    </div>
+                                    <svg class="icon" width="18" height="18"><use href="../assets/icons.svg#heart"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </section>
+    </main>
 </body>
 </html>
